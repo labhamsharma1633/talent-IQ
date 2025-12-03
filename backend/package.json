@@ -17,6 +17,7 @@
     "express": "^5.2.0",
     "inngest": "^3.46.0",
     "mongoose": "^9.0.0",
+    "stream-chat": "^9.26.0",
     "talent-iq": "file:.."
   },
   "devDependencies": {
