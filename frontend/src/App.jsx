@@ -1,37 +1,32 @@
+import { useUser } from "@clerk/clerk-react";
+import { Navigate, Route, Routes } from "react-router";
+import HomePage from "./pages/HomePage";
 
-import { SignedOut, SignIn, SignInButton, SignOutButton, UserButton, useUser } from '@clerk/clerk-react'
-import HomePage from './pages/HomePage'
-import AboutPage from './pages/AboutPage'
-import { Route, Routes,Navigate } from 'react-router';
-import { Toaster } from 'react-hot-toast';
+import { Toaster } from "react-hot-toast";
+import DashboardPage from "./pages/DashboardPage";
+
+import ProblemsPage from "./pages/ProblemsPage";
+
 
 function App() {
+  const { isSignedIn, isLoaded } = useUser();
 
-  const {isSignedIn}=useUser();
-
-
-
-  
+  // this will get rid of the flickering effect
+  if (!isLoaded) return null;
 
   return (
     <>
-    <Routes>
-      
-      <Route path="/" element={<HomePage/>}/>
-      
-      <Route path="/problems" element={isSignedIn?<ProblemsPage/>: <Navigate to={"/"}/>}/>
+      <Routes>
+        <Route path="/" element={!isSignedIn ? <HomePage /> : <Navigate to={"/dashboard"} />} />
+        <Route path="/dashboard" element={isSignedIn ? <DashboardPage /> : <Navigate to={"/"} />} />
 
+        <Route path="/problems" element={isSignedIn ? <ProblemsPage /> : <Navigate to={"/"} />} />
+        
+      </Routes>
 
-      
-    
-    </Routes>
-    <Toaster toastOptions={{duration:3000}}/>
+      <Toaster toastOptions={{ duration: 3000 }} />
     </>
-  )
+  );
 }
 
-export default App
-
-
-
-// tw ,daisyui react-router react-hot-toast
+export default App;
